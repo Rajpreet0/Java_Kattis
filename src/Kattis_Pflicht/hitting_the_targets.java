@@ -1,3 +1,5 @@
+package Kattis_Pflicht;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -79,6 +81,7 @@ class CircleTarget implements Target {
     public boolean isHit(int x, int y) {
         int dx = this.x - x;
         int dy = this.y - y;
+
         return dx * dx + dy * dy <= r * r;
     }
 }
