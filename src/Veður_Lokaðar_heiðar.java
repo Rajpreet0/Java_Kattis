@@ -44,3 +44,4 @@ public class Veður_Lokaðar_heiðar {
         return x;
     }
 }
+

@@ -1,26 +1,148 @@
 package Kattis_Pflicht;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Good_Morning {
 
+    public static HashSet<Integer> values;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        values = new HashSet<Integer>();
 
-        int T = scanner.nextInt();
+        generate(1,0);
+        var arr = new ArrayList<>(values);
+        Collections.sort(arr);
 
-        for (int t = 0; t < T; t++) {
+        int n = scanner.nextInt();
+        for (int i = 0; i < n; i++){
             int k = scanner.nextInt();
-            int result = findClosestNumber(k);
-            System.out.println(result);
+
+            if (arr.contains(k)){
+                System.out.println(k);
+            }else {
+                for (int j = 0; j < arr.size()-1; j++){
+                    if (arr.get(j) < k && k < arr.get(j+1)){
+                        if (k-arr.get(j) < arr.get(j+1) - k){
+                            System.out.println(arr.get(j));
+                        }else {
+                            System.out.println(arr.get(j+1));
+                        }
+                    }
+                }
+            }
         }
+
     }
 
-    // Find closet number on keyboard
-    private static int findClosestNumber(int k) {
-        // The idea is to round down the last digit to the nearest multiple of 10
-        // For example, if k is 83, round down 3 to 0, so the result is 80
-        int lastDigit = k % 10;
-        return k - lastDigit;
+    public static void generate (int digit, int number){
+        if (number > 200){
+            return;
+        }
+
+        if (digit == 1){
+            generate(2, number);
+            generate(4, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(1, number);
+            generate(2, number);
+            generate(4, number);
+        }
+        if (digit == 2){
+            generate(3, number);
+            generate(5, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(2, number);
+            generate(3, number);
+            generate(5, number);
+        }
+        if (digit == 3){
+            generate(6, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(3, number);
+            generate(6, number);
+        }
+
+        if (digit == 4){
+            generate(5, number);
+            generate(7, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(4, number);
+            generate(5, number);
+            generate(7, number);
+        }
+        if (digit == 5){
+            generate(6, number);
+            generate(8, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(5, number);
+            generate(6, number);
+            generate(8, number);
+        }
+        if (digit == 6){
+            generate(9, number);
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(6, number);
+            generate(9, number);
+        }
+        if (digit == 7) {
+            generate(8, number);
+            number = number * 10 + digit;
+            if (number <= 200) {
+                values.add(number);
+            }
+            generate(7, number);
+            generate(8, number);
+        }
+        // Add case for digit 8
+        if (digit == 8) {
+            generate(9, number);
+            generate(0, number);
+            number = number * 10 + digit;
+            if (number <= 200) {
+                values.add(number);
+            }
+            generate(8, number);
+            generate(9, number);
+            generate(0, number);
+        }
+
+        if (digit == 9){
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            generate(9, number);
+        }
+
+        if (digit == 0){
+            number = number * 10 + digit;
+            if (number <= 200){
+                values.add(number);
+            }
+            if (number != 0){
+                generate(0, number);
+            }
+        }
     }
 }
